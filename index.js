@@ -3,6 +3,7 @@ const app = express();
 const urlroute= require('./routes/url');
 const {connectDB} = require('./connect');
 const url = require('./model/url');
+const path = require('path');
 port = 3000;
 
 //connecting to database
@@ -14,8 +15,22 @@ connectDB().then(() => {
 
 app.use(express.json());
 
+app.set("view engine", "ejs");
+app.set("views", path.resolve('./view'));
+
+
+
 //routes
 app.use("/url",urlroute);
+
+
+app.get("/test", async(req, res) => {
+  let allurl = await url.find({});
+  return res.render("home", { url: allurl });
+});
+
+
+
 app.get("/:shortedid", async(req, res) => {
     try {
         const shortedid = req.params.shortedid;

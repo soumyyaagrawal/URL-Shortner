@@ -21,7 +21,7 @@ async function getAnalytics(req, res) {
     const result = await url.findOne({ shortUrl: shortedid });
     return res.status(200).json({
         totalclicks: result.log.length,
-        analytics: result.log,});
+        analytics: result.log,}); 
     }
 
     module.exports = {
