@@ -7,14 +7,20 @@ async function createUrl(req, res) {
         return res.status(400).json({ error: 'RedirectUrl is required' });
     }
     const shortedid = shortid();
+    console.log("req.user:", req.user);
     await url.create({
         shortUrl: shortedid,
         RedirectUrl: body.RedirectUrl,
+        createdBy: req.user.id, // Assuming req.user is set by the auth middleware
         log: [{
             timestamp: Date.now()
         }]
-    });
-    return res.status(200).json({ shortUrl: shortedid }); }
+    }); console.log(req.user);
+    const allurl = await url.find({createdBy: req.user.id});
+    
+    return res.status(200).render("home", {id: shortedid, uid: allurl, RedirectUrl: body.RedirectUrl,
+     });
+}
 
 async function getAnalytics(req, res) {
     const shortedid = req.params.shortUrl;
