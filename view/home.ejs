@@ -9,10 +9,21 @@
    <h1>URL Shortener</h1>
    <form method="POST" action="/url/create">
         <input type="url" name="RedirectUrl" placeholder="Enter URL to shorten" required>
+        <input type="string" name="desiredUrl" placeholder="Enter the desired short URL" required>
+
         <button type="submit">Shorten</button>
     </form>
 
-    
+    <% if (locals.msg == 'Alias already taken') { %>
+        <form method="POST" action="/url/create/suggested">
+        <input type="url" name="RedirectUrl" placeholder="Enter URL to shorten" required value="<%= RedirectUrl %>">
+        <input type="string" name="final" placeholder="finalize the desired short URL" required>
+
+        <button type="submit">Shorten</button>
+    </form>
+        
+    <% } %>
+
     <% if(locals.id) { %>
         <p> Shortened URL: <%= id %> <br>  <a href="http://localhost:3000/<%= id %>"> shortUrl</a> </p>
     <% } %>

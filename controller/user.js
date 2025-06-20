@@ -35,7 +35,7 @@ async function login(req, res) {
          res.cookie('sessionId', token);
         // return res.json({token})
         const cookievalue= req.cookies.sessionId;
-        const allurl = await url.find({createdBy: req.user._id}); 
+        const allurl = await url.find({createdBy: req.user.id}); 
 
       
         return res.status(200).render("home",{userid:cookievalue, uid:allurl});}
